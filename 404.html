@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<meta charset="utf-8">
+<title>Redirecting...</title>
+<script>
+    (function () {
+        var map = {"_index":{"target":"https://discord.gg/c8mq6cDwjF"},"bamzooki":{"target":"https://archive.org/download/Bamzooki/bamzooki_v3_1_fullbundle_build115_158_setupsigned.exe"},"git-cheatsheet":{"target":"https://education.guithub.com/git-cheat-sheet-education.pdf"},"git-hello-world":{"target":"https://guides.github.com/activities/hello-world"},"github":{"target":"https://education.github.com/discount_requests/student_application?utm_source=2021-02-06-hackawayv4"},"hackaway":{"target":"https://royalhackaway.com/"},"install-git":{"target":"https://git-scm.com/book/en/v2/Getting-Started-Installing-Git"},"marketing":{"target":"https://docs.google.com/document/d/1k-OC-FvnrdfIICwvPkiB8qtLb4KSIcB54QMIFf5wrHo/edit?usp=sharing"},"mentor":{"target":"https://forms.gle/dxL1hSsiGYhs6EPj8"},"stickermule":{"target":"https://www.stickermule.com/unlock?ref_id=0539570701&utm_source=sponsorship&utm_campaign=mlh-sponsorship-2019&utm_medium=referral"},"test":{"target":"https://google.com"},"tickets":{"target":"https://tickets.royalhackaway.com/"},"verify":{"target":"https://verify.royalhackaway.com/"}};
+        var uri = window.location.pathname.replace(/[\/\s]+$/, '').replace(/^[\/\s]+/, '').toLowerCase();
+        var closest = '';
+
+        function redirect (key) {
+            // Generate target, appending extra path without double slash
+            var target = map[key].target;
+            var ext = uri.substr((key === '_index' ? '' : key).length);
+            if (ext[0] === '/') ext = ext.substr(1);
+            if (target[target.length - 1] !== '/') target += '/';
+
+            // Do the redirect
+            window.location = target + ext;
+            var a = document.createElement('a');
+            a.href = target + ext;
+            a.innerHTML = 'Click here if you are not redirected.';
+            document.body.appendChild(a);
+        }
+
+        for (var key in map) {
+            if (!Object.prototype.hasOwnProperty.call(map, key)) {
+                continue;
+            }
+
+            // Root key handling
+            const realKey = key === '_index' ? '' : key;
+
+            // Exact match
+            if (realKey.toLowerCase() === uri) {
+                return redirect(key);
+            }
+
+            // Starts with
+            if (uri.indexOf(realKey.toLowerCase()) === 0) {
+                if (closest.length === 0 || realKey.length > closest.length) {
+                    closest = key;
+                }
+            }
+        }
+
+        // Closest (starts with) match
+        if (closest.length) {
+            return redirect(closest);
+        }
+
+        // TODO: Render 404
+    })();
+</script>
+<meta name="robots" content="noindex">
+<h1>Redirecting...</h1>
+</html>
